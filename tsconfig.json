@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "plugins": [{ "name": "@effect/language-service" }],
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true,
+    "outDir": "dist",
+    "skipLibCheck": true
+  },
+  "include": ["src"]
+}

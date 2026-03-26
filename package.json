@@ -1,0 +1,27 @@
+{
+  "name": "workflow-automation",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "packageManager": "npm@10.9.3",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "build": "tsc",
+    "build:app": "npm run build && bash scripts/build-app.sh"
+  },
+  "dependencies": {
+    "@effect/ai": "^0.35.0",
+    "@effect/ai-anthropic": "^0.25.0",
+    "@effect/platform": "^0.96.0",
+    "@effect/platform-node": "^0.106.0",
+    "effect": "^3.21.0",
+    "heic-convert": "^2.1.0",
+    "sharp": "^0.33.0"
+  },
+  "devDependencies": {
+    "@effect/language-service": "^0.83.1",
+    "@types/heic-convert": "^2.1.0",
+    "@types/node": "^22.0.0",
+    "typescript": "^5.7.0"
+  }
+}
