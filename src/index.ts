@@ -79,12 +79,8 @@ const AnthropicClientLayer = AnthropicClient.layerConfig({
   apiKey: Config.redacted("ANTHROPIC_API_KEY"),
 }).pipe(Layer.provide(HttpClientLayer));
 
-const LanguageModelLayer = AnthropicLanguageModel.layer({
-  model: "claude-haiku-4-5-20251001",
-}).pipe(Layer.provide(AnthropicClientLayer));
 
 const MainLayer = Layer.mergeAll(
-  LanguageModelLayer,
   AnthropicClientLayer,
   NodeFileSystem.layer,
   NodePath.layer,
