@@ -1,7 +1,6 @@
 import * as AnthropicClient from "@effect/ai-anthropic/AnthropicClient";
-import * as AnthropicLanguageModel from "@effect/ai-anthropic/AnthropicLanguageModel";
 import * as NodeHttpClient from "@effect/platform-node/NodeHttpClient";
-import { Config, pipe } from "effect";
+import { Cause, Config, Exit, pipe } from "effect";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import { FileSystem, Path } from "@effect/platform";
@@ -55,8 +54,7 @@ const main = Effect.gen(function* () {
     imageFilePaths,
     (filePath) => {
       const fullPath = path.join(imagesDir, filePath);
-      const filename =
-        path.basename(filePath, path.extname(filePath)) + ".jpg";
+      const filename = path.basename(filePath, path.extname(filePath)) + ".jpg";
       const outputPath = path.join(outputDir, filename);
       return pipe(
         fullPath,
@@ -79,7 +77,6 @@ const AnthropicClientLayer = AnthropicClient.layerConfig({
   apiKey: Config.redacted("ANTHROPIC_API_KEY"),
 }).pipe(Layer.provide(HttpClientLayer));
 
-
 const MainLayer = Layer.mergeAll(
   AnthropicClientLayer,
   NodeFileSystem.layer,
@@ -87,7 +84,11 @@ const MainLayer = Layer.mergeAll(
   SharpImageProcessor,
 );
 
-Effect.runPromise(Effect.provide(main, MainLayer)).catch((err) => {
-  console.error("Fatal error:", err);
-  process.exit(1);
+const runnable = Effect.provide(main, MainLayer);
+
+Effect.runPromiseExit(runnable).then((exit) => {
+  if (Exit.isFailure(exit)) {
+    console.error(Cause.pretty(exit.cause));
+    process.exit(1);
+  }
 });

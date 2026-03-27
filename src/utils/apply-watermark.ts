@@ -57,7 +57,6 @@ export const applyWatermark = (baseImage: Uint8Array, watermark: Uint8Array) =>
     const message = Prompt.makeMessage("user", {
       content: [textPart, imagePart],
     });
-
     const prompt = Prompt.fromMessages([message]);
 
     // Get result from LLM and calculate placement
